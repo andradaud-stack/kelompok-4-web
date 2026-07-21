@@ -1,20 +1,530 @@
+
+
+Index · HTML
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Kelompok 4</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelompok 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f3f3f6;
+    --ink: #1d1d1f;
+    --ink-soft: rgba(29,29,31,0.6);
+    --glass: rgba(255,255,255,0.55);
+    --glass-border: rgba(255,255,255,0.8);
+    --c1: #ff6ea8; /* pink */
+    --c2: #7c6bff; /* purple */
+    --c3: #4ea8ff; /* blue */
+    --c4: #33d9c9; /* teal */
+    --c5: #ffb24e; /* amber */
+    --shadow: 0 8px 32px rgba(31,38,68,0.12);
+  }
+ 
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+ 
+  body{
+    margin:0;
+    font-family:-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x:hidden;
+    min-height:100vh;
+    position:relative;
+  }
+ 
+  /* ---------- Aurora background ---------- */
+  .aurora{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    overflow:hidden;
+    filter: blur(60px) saturate(140%);
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    opacity:0.55;
+    will-change: transform;
+  }
+  .blob1{ width:520px; height:520px; background: radial-gradient(circle at 30% 30%, var(--c1), transparent 70%); top:-140px; left:-120px; animation: float1 22s ease-in-out infinite; }
+  .blob2{ width:600px; height:600px; background: radial-gradient(circle at 60% 40%, var(--c2), transparent 70%); top:10%; right:-200px; animation: float2 26s ease-in-out infinite; }
+  .blob3{ width:480px; height:480px; background: radial-gradient(circle at 50% 50%, var(--c3), transparent 70%); bottom:-160px; left:15%; animation: float3 30s ease-in-out infinite; }
+  .blob4{ width:420px; height:420px; background: radial-gradient(circle at 50% 50%, var(--c4), transparent 70%); bottom:-100px; right:10%; animation: float1 24s ease-in-out infinite reverse; }
+  .blob5{ width:360px; height:360px; background: radial-gradient(circle at 50% 50%, var(--c5), transparent 70%); top:35%; left:40%; animation: float2 28s ease-in-out infinite; }
+ 
+  @keyframes float1{ 0%,100%{ transform: translate(0,0) scale(1);} 50%{ transform: translate(60px,80px) scale(1.15);} }
+  @keyframes float2{ 0%,100%{ transform: translate(0,0) scale(1);} 50%{ transform: translate(-70px,50px) scale(0.9);} }
+  @keyframes float3{ 0%,100%{ transform: translate(0,0) scale(1);} 50%{ transform: translate(50px,-60px) scale(1.1);} }
+ 
+  .noise{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+ 
+  /* ---------- Cursor spotlight ---------- */
+  .spotlight{
+    position:fixed;
+    width:420px; height:420px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:0;
+    background: radial-gradient(circle, rgba(255,255,255,0.35), transparent 70%);
+    transform: translate(-50%,-50%);
+    left:50%; top:50%;
+    transition: opacity .3s ease;
+    opacity:0;
+    mix-blend-mode: overlay;
+  }
+ 
+  /* ---------- Floating glass navbar ---------- */
+  nav{
+    position:fixed;
+    top:20px; left:50%;
+    transform: translateX(-50%);
+    z-index:100;
+    display:flex;
+    align-items:center;
+    gap:28px;
+    padding:12px 26px;
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border:1px solid var(--glass-border);
+    border-radius:999px;
+    box-shadow: var(--shadow);
+  }
+  nav .brand{
+    font-weight:800;
+    font-size:15px;
+    letter-spacing:-0.02em;
+    background: linear-gradient(120deg, var(--c2), var(--c3));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  nav a{
+    font-size:13px;
+    font-weight:600;
+    color: var(--ink-soft);
+    text-decoration:none;
+    transition: color .25s ease;
+  }
+  nav a:hover{ color: var(--ink); }
+ 
+  /* ---------- Hero ---------- */
+  header.hero{
+    position:relative;
+    z-index:1;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 120px 24px 60px;
+  }
+ 
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 18px;
+    border-radius:999px;
+    background: var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    font-size:12.5px;
+    font-weight:600;
+    color: var(--ink-soft);
+    margin-bottom:28px;
+    box-shadow: var(--shadow);
+    animation: pop .8s cubic-bezier(.2,1,.3,1) both;
+  }
+  .eyebrow .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: linear-gradient(120deg, var(--c1), var(--c3));
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.4; transform:scale(1.3);} }
+ 
+  h1.title{
+    font-size: clamp(48px, 9vw, 108px);
+    line-height: 0.95;
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    margin: 0 0 20px;
+    animation: pop 1s cubic-bezier(.2,1,.3,1) both .1s;
+  }
+  h1.title .grad{
+    background: linear-gradient(100deg, var(--c1), var(--c2) 45%, var(--c3) 75%, var(--c4));
+    background-size: 200% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation: shimmer 6s linear infinite;
+  }
+  @keyframes shimmer{ to{ background-position: 200% center; } }
+ 
+  @keyframes pop{
+    0%{ opacity:0; transform: translateY(24px) scale(.96); }
+    100%{ opacity:1; transform: translateY(0) scale(1); }
+  }
+ 
+  .subtitle{
+    max-width: 560px;
+    font-size: 18px;
+    color: var(--ink-soft);
+    font-weight:500;
+    line-height:1.6;
+    margin: 0 0 40px;
+    animation: pop 1s cubic-bezier(.2,1,.3,1) both .2s;
+  }
+ 
+  .scroll-cue{
+    margin-top: 60px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    color: var(--ink-soft);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    animation: pop 1s cubic-bezier(.2,1,.3,1) both .4s;
+  }
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background: linear-gradient(var(--ink-soft), transparent);
+    animation: scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine{ 0%{ transform: scaleY(0); transform-origin: top;} 50%{ transform: scaleY(1); transform-origin: top;} 51%{transform-origin:bottom;} 100%{ transform: scaleY(0); transform-origin: bottom;} }
+ 
+  /* ---------- Section ---------- */
+  section.members{
+    position:relative;
+    z-index:1;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 24px 140px;
+  }
+  .section-head{
+    text-align:center;
+    margin-bottom: 56px;
+  }
+  .section-head h2{
+    font-size: clamp(30px, 5vw, 46px);
+    font-weight: 800;
+    letter-spacing:-0.03em;
+    margin: 0 0 12px;
+  }
+  .section-head p{
+    color: var(--ink-soft);
+    font-size:16px;
+    font-weight:500;
+    margin:0;
+  }
+ 
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 920px){ .grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 620px){ .grid{ grid-template-columns: 1fr; } }
+ 
+  .card{
+    position:relative;
+    opacity:0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.2,1,.3,1);
+  }
+  .card.in-view{ opacity:1; transform: translateY(0); }
+ 
+  .card a{
+    position:relative;
+    display:block;
+    text-decoration:none;
+    color: var(--ink);
+    padding: 30px 24px 26px;
+    border-radius: 26px;
+    background: var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+    transform-style: preserve-3d;
+    transition: box-shadow .4s ease, border-color .4s ease;
+    will-change: transform;
+  }
+  .card a:hover{
+    box-shadow: 0 20px 50px rgba(31,38,68,0.2);
+  }
+  .card .sheen{
+    position:absolute; inset:0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.6), transparent 55%);
+    opacity:0;
+    transition: opacity .3s ease;
+    pointer-events:none;
+  }
+  .card a:hover .sheen{ opacity:1; }
+ 
+  .card .badge{
+    position:absolute;
+    top:18px; right:20px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color: var(--ink-soft);
+  }
+ 
+  .avatar{
+    width:64px; height:64px;
+    border-radius: 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:22px;
+    color:#fff;
+    margin-bottom:20px;
+    box-shadow: 0 10px 24px -6px rgba(0,0,0,0.25);
+    transform: translateZ(30px);
+  }
+ 
+  .card h3{
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0 0 6px;
+    transform: translateZ(24px);
+  }
+  .card p.role{
+    font-size:13.5px;
+    color: var(--ink-soft);
+    font-weight:600;
+    margin:0 0 18px;
+    transform: translateZ(20px);
+  }
+  .card .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:700;
+    transform: translateZ(20px);
+  }
+  .card .cta svg{ transition: transform .3s ease; }
+  .card a:hover .cta svg{ transform: translateX(4px); }
+ 
+  /* per-member gradient */
+  .m1 .avatar{ background: linear-gradient(135deg, var(--c1), #ff9ac6); }
+  .m2 .avatar{ background: linear-gradient(135deg, var(--c5), #ffcf7d); }
+  .m3 .avatar{ background: linear-gradient(135deg, var(--c2), #a89bff); }
+  .m4 .avatar{ background: linear-gradient(135deg, var(--c3), #8cc8ff); }
+  .m5 .avatar{ background: linear-gradient(135deg, var(--c4), #7fe9dc); }
+  .m6 .avatar{ background: linear-gradient(135deg, #ff8a65, var(--c1)); }
+ 
+  /* ---------- Dock footer ---------- */
+  footer{
+    position: sticky;
+    bottom: 22px;
+    z-index: 90;
+    display:flex;
+    justify-content:center;
+    padding-bottom: 10px;
+    pointer-events:none;
+  }
+  .dock{
+    pointer-events:auto;
+    display:flex;
+    align-items:flex-end;
+    gap:14px;
+    padding: 12px 18px;
+    background: var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+  }
+  .dock a{
+    width:40px; height:40px;
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+    font-size:14px;
+    font-weight:800;
+    text-decoration:none;
+    transition: transform .25s cubic-bezier(.2,1,.4,1), margin .25s ease;
+  }
+  .dock a:hover{ transform: translateY(-10px) scale(1.15); }
+ 
+  ::selection{ background: var(--c2); color:#fff; }
+ 
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
 </head>
 <body>
-    <h1>Kelompok 4</h1>
-    <p>Pilih profil anggota:</p>
-    <ul>
-        <li><a href="ayaa.html">Profil Ayaa</a></li>
-        <li><a href="depi.html">Profil Depi</a></li>
-        <li><a href="ervina.html">Profil Ervina</a></li>
-        <li><a href="hanifah.html">Profil Hanifah</a></li>
-        <li><a href="kella.html">Profil Kella</a></li>
-        <li><a href="naysila.html">Profil Naysila</a></li>
-    </ul>
+ 
+  <div class="aurora">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="blob blob4"></div>
+    <div class="blob blob5"></div>
+  </div>
+  <div class="noise"></div>
+  <div class="spotlight" id="spotlight"></div>
+ 
+  <nav>
+    <span class="brand">Kelompok 4</span>
+  </nav>
+ 
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span> 7 Anggota &middot; 1 Tim</div>
+    <h1 class="title"><span class="grad">Kelompok 4</span></h1>
+    <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+  </header>
+ 
+  <section class="members" id="members">
+    <div class="section-head">
+      <h2>Profil Anggota</h2>
+      </div>
+ 
+    <div class="grid">
+      <div class="card m1"><a href="ayaa.html" data-tilt>
+        <span class="sheen"></span>
+        <span class="badge">01</span>
+        <div class="avatar">A</div>
+        <h3>Ayaa</h3>
+        <p class="role">Anggota Kelompok 4</p>
+        <span class="cta">Lihat profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a></div>
+ 
+      <div class="card m2"><a href="depi.html" data-tilt>
+        <span class="sheen"></span>
+        <span class="badge">02</span>
+        <div class="avatar">D</div>
+        <h3>Depi</h3>
+        <p class="role">Anggota Kelompok 4</p>
+        <span class="cta">Lihat profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a></div>
+ 
+      <div class="card m3"><a href="ervina.html" data-tilt>
+        <span class="sheen"></span>
+        <span class="badge">03</span>
+        <div class="avatar">E</div>
+        <h3>Ervina</h3>
+        <p class="role">Anggota Kelompok 4</p>
+        <span class="cta">Lihat profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a></div>
+ 
+      <div class="card m4"><a href="hanifah.html" data-tilt>
+        <span class="sheen"></span>
+        <span class="badge">04</span>
+        <div class="avatar">H</div>
+        <h3>Hanifah</h3>
+        <p class="role">Anggota Kelompok 4</p>
+        <span class="cta">Lihat profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a></div>
+ 
+      <div class="card m5"><a href="kella.html" data-tilt>
+        <span class="sheen"></span>
+        <span class="badge">05</span>
+        <div class="avatar">K</div>
+        <h3>Kella</h3>
+        <p class="role">Anggota Kelompok 4</p>
+        <span class="cta">Lihat profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a></div>
+ 
+      <div class="card m6"><a href="naysila.html" data-tilt>
+        <span class="sheen"></span>
+        <span class="badge">06</span>
+        <div class="avatar">N</div>
+        <h3>Naysila</h3>
+        <p class="role">Anggota Kelompok 4</p>
+        <span class="cta">Lihat profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a></div>
+    </div>
+  </section>
+ 
+  <footer>
+    <div class="dock">
+      <a href="ayaa.html" style="background:linear-gradient(135deg,var(--c1),#ff9ac6)" title="Ayaa">A</a>
+      <a href="depi.html" style="background:linear-gradient(135deg,var(--c5),#ffcf7d)" title="Depi">D</a>
+      <a href="ervina.html" style="background:linear-gradient(135deg,var(--c2),#a89bff)" title="Ervina">E</a>
+      <a href="hanifah.html" style="background:linear-gradient(135deg,var(--c3),#8cc8ff)" title="Hanifah">H</a>
+      <a href="kella.html" style="background:linear-gradient(135deg,var(--c4),#7fe9dc)" title="Kella">K</a>
+      <a href="naysila.html" style="background:linear-gradient(135deg,#ff8a65,var(--c1))" title="Naysila">N</a>
+    </div>
+  </footer>
+ 
+<script>
+  // Cursor spotlight
+  const spot = document.getElementById('spotlight');
+  window.addEventListener('mousemove', (e) => {
+    spot.style.left = e.clientX + 'px';
+    spot.style.top = e.clientY + 'px';
+    spot.style.opacity = '1';
+  });
+  window.addEventListener('mouseleave', () => spot.style.opacity = '0');
+ 
+  // 3D tilt on cards
+  document.querySelectorAll('[data-tilt]').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      const cx = x / r.width - 0.5;
+      const cy = y / r.height - 0.5;
+      el.style.transform = `perspective(700px) rotateX(${cy * -10}deg) rotateY(${cx * 10}deg) translateY(-4px)`;
+      el.style.setProperty('--mx', (x / r.width) * 100 + '%');
+      el.style.setProperty('--my', (y / r.height) * 100 + '%');
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = 'perspective(700px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+ 
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.card').forEach((c, i) => {
+    c.style.transitionDelay = (i * 70) + 'ms';
+    io.observe(c);
+  });
+ 
+  // Parallax blobs on scroll
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        document.querySelectorAll('.blob').forEach((b, i) => {
+          b.style.marginTop = (y * (0.05 + i * 0.02)) + 'px';
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+</script>
 </body>
 </html>
+ 
